@@ -4,10 +4,9 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-
 const app = express();
 
-
+const bookRouter = require("./app/api/book/router");
 
 //middleware
 const notFoundMiddleware = require("./app/middlewares/not-found");
@@ -17,13 +16,13 @@ const handleErrorMiddleware = require("./app/middlewares/handle-error");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/", bookRouter);
 
 app.use(notFoundMiddleware);
 app.use(handleErrorMiddleware);
