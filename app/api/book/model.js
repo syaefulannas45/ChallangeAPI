@@ -4,6 +4,7 @@ let bookShelf = new mongoose.Schema(
   {
     name: {
       type: String,
+      required: [true, "Name is required"],
     },
     year: {
       type: Number,
@@ -22,6 +23,9 @@ let bookShelf = new mongoose.Schema(
     },
     readPage: {
       type: Number,
+    },
+    finished: {
+      type: Boolean,
     },
     reading: {
       type: Boolean,
