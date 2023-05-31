@@ -1,7 +1,5 @@
-const { json } = require("express");
 const Book = require("../api/book/model");
 
-// Metode POST
 const createBook = async (req) => {
   const {
     name,
@@ -42,4 +40,45 @@ const getOneBook = async (req) => {
   return result;
 };
 
-module.exports = { createBook, getAllBook, getOneBook };
+const updateBook = async (req) => {
+  const { id } = req.params;
+  const {
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+  } = req.body;
+
+  const result = await Book.findOneAndUpdate(
+    { _id: id },
+    {
+      name,
+      year,
+      author,
+      summary,
+      publisher,
+      pageCount,
+      readPage,
+      reading,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return result;
+};
+
+const deleteBook = async (req) => {
+  const { id } = req.params;
+  const result = await Book.findOne({ _id: id });
+
+  await result.remove();
+  return result;
+};
+module.exports = { createBook, getAllBook, getOneBook, updateBook, deleteBook };
